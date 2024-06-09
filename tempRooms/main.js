@@ -6,10 +6,8 @@ export async function createTempChannelBot(oldState, newState) {
   const user = newState.member.user
   const guild = newState.guild
 
-  console.log(newState.channelId, creatorChannelID)
   // Verifica si un usuario se ha unido al canal "Creador de salas"
   if (newState.channelId === creatorChannelID && !oldState.channelId) {
-    console.log('A1')
     const tempChannel = await createTempChannel(guild, user)
     await moveUserToChannel(newState.member, tempChannel)
   }
