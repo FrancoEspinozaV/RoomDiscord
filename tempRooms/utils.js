@@ -17,6 +17,7 @@ export async function createTempChannel(guild, user) {
           PermissionsBitField.Flags.ViewChannel,
           PermissionsBitField.Flags.Connect,
           PermissionsBitField.Flags.Speak,
+          PermissionsBitField.Flags.ManageChannels, // Permiso para gestionar el canal
         ],
       },
     ],
@@ -32,4 +33,19 @@ export async function moveUserToChannel(user, channel) {
 
 export async function deleteChannel(channel) {
   await channel.delete()
+}
+
+// no la estoy usando pero se ve interesante de utilizar más adelante
+export async function getChannelPermissions(channel) {
+  const permissionOverwrites = channel.permissionOverwrites.cache
+
+  permissionOverwrites.forEach((overwrite) => {
+    const roleOrUserId = overwrite.id
+    const allowPermissions = new PermissionsBitField(overwrite.allow)
+    const denyPermissions = new PermissionsBitField(overwrite.deny)
+
+    console.log(`Role/User ID: ${roleOrUserId}`)
+    console.log(`Allowed Permissions: ${allowPermissions.toArray().join(', ')}`)
+    console.log(`Denied Permissions: ${denyPermissions.toArray().join(', ')}`)
+  })
 }
